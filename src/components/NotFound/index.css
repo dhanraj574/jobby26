@@ -1,0 +1,30 @@
+.notfound-section {
+    background-color: #000000;
+    height: 100vh;
+  }
+  .notfound-content {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  .notfound-img {
+    align-self: center;
+    width: 400px;
+  }
+  .notfound-heading {
+    align-self: center;
+    margin: 0px;
+    font-size: 44px;
+    color: #ffffff;
+  }
+  .notfound-description {
+    align-self: center;
+    line-height: 20px;
+    margin: 0px;
+    font-size: 16px;
+    color: #f8fafc;
+  }
+  

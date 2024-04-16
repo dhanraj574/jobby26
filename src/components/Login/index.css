@@ -1,0 +1,116 @@
+.login-section {
+    
+    height:100vh;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    font-family: Roboto;
+  }
+  .login-card {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    background-color: #272727;
+    border-radius: 10px;
+    padding: 35px;
+    align-self: center;
+  }
+  .login-logo-name {
+    align-self: center;
+    margin-bottom: 20px;
+  }
+  .login-logo {
+    width: 150px;
+  }
+  .input-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .loginlabel {
+    font-size: 10px;
+    color: #ffffff;
+  }
+  .input {
+    padding-left: 10px;
+    border: 1px solid #2c364c;
+    border-radius: 3px;
+    color: #ffffff;
+    background-color: transparent;
+    outline: none;
+    margin: 0px;
+    height: 35px;
+    width: 100%;
+  }
+  ::-ms-reveal {
+    filter: invert(100%);
+  }
+  .loginbtn-cont {
+    align-self: center;
+    width: 100%;
+  }
+  .login-btn {
+    color: #ffffff;
+    background-color: #6366f1;
+    border-radius: 5px;
+    border: none;
+    height: 35px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .err-msg {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #ff0b37;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .login-card {
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      background-color: #272727;
+      border-radius: 10px;
+      padding: 35px;
+      align-self: center;
+    }
+    .input {
+      font-size: 12px;
+      padding-left: 10px;
+      border: 1px solid #2c364c;
+      border-radius: 3px;
+      color: #ffffff;
+      background-color: #272727;
+      outline: none;
+      margin: 0px;
+      height: 35px;
+      width: 100%;
+    }
+    .login-logo {
+      width: 100px;
+    }
+    .loginbtn-cont{
+      width: 100%;
+    }
+    .login-btn {
+      color: #ffffff;
+      background-color: #6366f1;
+      border-radius: 5px;
+      border: none;
+      height: 35px;
+      
+      width: 100%;
+      cursor: pointer;
+    }
+    .err-msg {
+      margin-top: 5px;
+      font-size: 10px;
+      color: #ff0b37;
+    }
+  }
+  
