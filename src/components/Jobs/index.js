@@ -16,6 +16,8 @@ const apiStatusList = {
   failure: 'FAILURE',
 }
 
+const salaryList = ['Hyderabad', 'Bangalore', 'Chennai', 'Delhi', 'Mumbai']
+
 class Jobs extends Component {
   state = {
     profileDetails: {},
@@ -26,19 +28,28 @@ class Jobs extends Component {
     employmentType: [],
     salaryPackage: '',
     isChecked: false,
+    location:""
   }
 
   componentDidMount = () => {
     this.getProfileDetails()
     this.getJobsList()
   }
-  
+
+  onChangeLocation = (id) => {
+    const {jobsList} = this.state
+    
+     const updated = jobsList.filter(each => each.location === id)
+     this.setState({
+      jobsList:updated
+     })
+  }
 
   getProfileDetails = async () => {
     this.setState({
       profileApiStatus: apiStatusList.inProgress,
     })
-    
+
     const jwtToken = Cookies.get('jwt_token')
     const apiUrl = 'https://apis.ccbp.in/profile'
     const options = {
@@ -135,10 +146,12 @@ class Jobs extends Component {
         this.getJobsList,
       )
     }
+    
   }
 
   activeSalaryRange = value => {
     this.setState({salaryPackage: value}, this.getJobsList)
+    
   }
 
   profileRetryBtn = () => {
@@ -150,30 +163,30 @@ class Jobs extends Component {
   }
 
   renderProfileFailureView = () => (
-    <div className="profile-failureview">
-      <button className="retry-btn" onClick={() => this.profileRetryBtn()}>
+    <div className='profile-failureview'>
+      <button className='retry-btn' onClick={() => this.profileRetryBtn()}>
         Retry
       </button>
     </div>
   )
 
   renderLoaderView = () => (
-    <div className="loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    <div className='loader-container' data-testid='loader'>
+      <Loader type='ThreeDots' color='#ffffff' height='50' width='50' />
     </div>
   )
 
   renderProfileView = () => {
     const {profileDetails} = this.state
     return (
-      <div className="profile">
+      <div className='profile'>
         <img
-          className="profile-img"
+          className='profile-img'
           src={profileDetails.profileImageUrl}
-          alt="profile"
+          alt='profile'
         />
-        <h1 className="profile-name">Dhanraj</h1>
-        <p className="profile-bio">Frontend Developer</p>
+        <h1 className='profile-name'>Dhanraj</h1>
+        <p className='profile-bio'>Frontend Developer</p>
       </div>
     )
   }
@@ -195,22 +208,47 @@ class Jobs extends Component {
   renderEmploymentTypes = () => {
     const {employmentTypes} = this.props
     return (
-      <div className="employment-filter">
-        <h1 className="heading">Type of Employment</h1>
-        <ul className="filter-list">
+      <div className='employment-filter'>
+        <h1 className='heading'>Type of Employment</h1>
+        <ul className='filter-list'>
           {employmentTypes.map(each => (
-            <li className="filter-item" key={each.id}>
+            <li className='filter-item' key={each.id}>
               <input
-                className="checkbox"
-                type="checkbox"
+                className='checkbox'
+                type='checkbox'
                 id={each.employmentTypeId}
                 value={each.label}
                 onChange={() =>
                   this.activeEmploymentType(each.employmentTypeId)
                 }
               />
-              <label htmlFor={each.employmentTypeId} className="label">
+              <label htmlFor={each.employmentTypeId} className='label'>
                 {each.label}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  renderLocationFilter = () => {
+    return (
+      <div className='location-filter-cont'>
+        <h1 className='heading'>Location</h1>
+        <ul className='filter-list'>
+          {salaryList.map(each => (
+            <li className='filter-item' key={each}>
+              <input
+                type='radio'
+                className='radio'
+                id={each}
+                value={each}
+                name='location'
+                onChange={() => this.onChangeLocation(each)}
+              />
+              <label htmlFor={each} className='label'>
+                {each}
               </label>
             </li>
           ))}
@@ -223,20 +261,20 @@ class Jobs extends Component {
     const {salaryRanges} = this.props
 
     return (
-      <div className="salary-filter">
-        <h1 className="heading">Salary Range</h1>
-        <ul className="filter-list">
+      <div className='salary-filter'>
+        <h1 className='heading'>Salary Range</h1>
+        <ul className='filter-list'>
           {salaryRanges.map(each => (
-            <li className="filter-item" key={each.salaryRangeId}>
+            <li className='filter-item' key={each.salaryRangeId}>
               <input
-                type="radio"
-                className="radio"
+                type='radio'
+                className='radio'
                 id={each.salaryRangeId}
                 value={each.label}
-                name="salary"
+                name='salary'
                 onChange={() => this.activeSalaryRange(each.salaryRangeId)}
               />
-              <label htmlFor={each.salaryRangeId} className="label">
+              <label htmlFor={each.salaryRangeId} className='label'>
                 {each.label}
               </label>
             </li>
@@ -250,22 +288,22 @@ class Jobs extends Component {
     const {jobSearchValue} = this.state
 
     return (
-      <div className="search-cont">
+      <div className='search-cont'>
         <input
-          type="search"
-          className="search"
-          placeholder="Search"
+          type='search'
+          className='search'
+          placeholder='Search'
           onChange={this.onChangeSearchValue}
           onKeyDown={this.onClickEnter}
           value={jobSearchValue}
         />
         <button
-          className="search-btn"
-          type="button"
-          data-testid="searchButton"
+          className='search-btn'
+          type='button'
+          data-testid='searchButton'
           onClick={() => this.onClickSearch()}
         >
-          <BsSearch className="search-icon" />
+          <BsSearch className='search-icon' />
         </button>
       </div>
     )
@@ -273,47 +311,48 @@ class Jobs extends Component {
 
   renderJobs = () => {
     const {jobsList} = this.state
+    console.log(jobsList)
 
     if (jobsList.length > 1) {
       return (
-        <ul className="jobs-list">
+        <ul className='jobs-list'>
           {jobsList.map(each => (
-            <Link className="jobs-link" to={`jobs/${each.id}`}>
-              <li className="jobs-item" key={each.id}>
-                <div className="jobs-sec-1">
-                  <div className="job-logo-cont">
+            <Link className='jobs-link' to={`jobs/${each.id}`}>
+              <li className='jobs-item' key={each.id}>
+                <div className='jobs-sec-1'>
+                  <div className='job-logo-cont'>
                     <img
-                      className="job-logo-img"
+                      className='job-logo-img'
                       src={each.companyLogoUrl}
-                      alt="company logo"
+                      alt='company logo'
                     />
                   </div>
-                  <div className="job-position-cont">
-                    <h1 className="company-name">{each.title}</h1>
-                    <div className="company-rating-cont">
-                      <FaStar className="rating-star" />
-                      <p className="rating">{each.rating}</p>
+                  <div className='job-position-cont'>
+                    <h1 className='company-name'>{each.title}</h1>
+                    <div className='company-rating-cont'>
+                      <FaStar className='rating-star' />
+                      <p className='rating'>{each.rating}</p>
                     </div>
                   </div>
                 </div>
-                <div className="jobs-sec-2">
-                  <div className="job-location-cont">
-                    <div className="location-cont">
-                      <MdLocationOn className="location-icon" />
-                      <p className="location">{each.location}</p>
+                <div className='jobs-sec-2'>
+                  <div className='job-location-cont'>
+                    <div className='location-cont'>
+                      <MdLocationOn className='location-icon' />
+                      <p className='location'>{each.location}</p>
                     </div>
-                    <div className="jobtype-cont">
-                      <BsBriefcaseFill className="briefcase-icon" />
-                      <p className="jobtype">{each.employmentType}</p>
+                    <div className='jobtype-cont'>
+                      <BsBriefcaseFill className='briefcase-icon' />
+                      <p className='jobtype'>{each.employmentType}</p>
                     </div>
                   </div>
-                  <div className="job-package-cont">
-                    <p className="package">{each.packagePerAnnum}</p>
+                  <div className='job-package-cont'>
+                    <p className='package'>{each.packagePerAnnum}</p>
                   </div>
                 </div>
-                <div className="jobs-sec-3">
-                  <h1 className="description-head">Description</h1>
-                  <p className="description">{each.jobDescription}</p>
+                <div className='jobs-sec-3'>
+                  <h1 className='description-head'>Description</h1>
+                  <p className='description'>{each.jobDescription}</p>
                 </div>
               </li>
             </Link>
@@ -327,17 +366,17 @@ class Jobs extends Component {
 
   renderJobsFailureView = () => {
     return (
-      <div className="jobs-failureview">
+      <div className='jobs-failureview'>
         <img
-          src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
-          className="job-failureimg"
-          alt="failure view"
+          src='https://assets.ccbp.in/frontend/react-js/failure-img.png'
+          className='job-failureimg'
+          alt='failure view'
         />
-        <h1 className="jobfailure-head">Oops! Something Went Wrong</h1>
-        <p className="jobfailure-description">
+        <h1 className='jobfailure-head'>Oops! Something Went Wrong</h1>
+        <p className='jobfailure-description'>
           We cannot seem to find the page you are looking for
         </p>
-        <button className="retry-btn" onClick={() => this.jobsRetryBtn()}>
+        <button className='retry-btn' onClick={() => this.jobsRetryBtn()}>
           Retry
         </button>
       </div>
@@ -359,36 +398,36 @@ class Jobs extends Component {
   }
   renderNoJobView = () => {
     return (
-      <div className="jobs-failureview">
+      <div className='jobs-failureview'>
         <img
-          src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
-          className="job-failureimg"
-          alt="no jobs"
+          src='https://assets.ccbp.in/frontend/react-js/no-jobs-img.png'
+          className='job-failureimg'
+          alt='no jobs'
         />
-        <h1 className="jobfailure-head">No Jobs Found</h1>
-        <p className="jobfailure-description">
+        <h1 className='jobfailure-head'>No Jobs Found</h1>
+        <p className='jobfailure-description'>
           We could not find any jobs. Try others filters
         </p>
       </div>
     )
-    
   }
   render() {
     return (
-      <div className="jobs-section">
+      <div className='jobs-section'>
         <Header />
-        <div className="jobs-content-cont">
-          <div className="filters-section">
-            <div className="profile-cont">
-              <div className="sm-search-cont">{this.renderSearchInput()}</div>
+        <div className='jobs-content-cont'>
+          <div className='filters-section'>
+            <div className='profile-cont'>
+              <div className='sm-search-cont'>{this.renderSearchInput()}</div>
               {this.renderAllProfile()}
             </div>
             {this.renderEmploymentTypes()}
             {this.renderSalaryFilter()}
+            {this.renderLocationFilter()}
           </div>
-          <div className="jobs-list-section">
-            <div className="lg-search-cont">{this.renderSearchInput()}</div>
-            <div className="jobslist-cont">{this.renderAllJobs()}</div>
+          <div className='jobs-list-section'>
+            <div className='lg-search-cont'>{this.renderSearchInput()}</div>
+            <div className='jobslist-cont'>{this.renderAllJobs()}</div>
           </div>
         </div>
       </div>

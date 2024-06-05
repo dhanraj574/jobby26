@@ -14,33 +14,33 @@ const Header = props => {
   }
 
   return (
-    <div className="header-section">
-      <Link to="/">
+    <div className='header-section'>
+      <Link to='/'>
         <img
-          className="header-logo"
-          src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
-          alt="website logo"
+          className='header-logo'
+          src='https://assets.ccbp.in/frontend/react-js/logo-img.png'
+          alt='website logo'
         />
       </Link>
-      <ul className="header-link-list">
-        <Link to="/" className="header-link">
+      <ul className='header-link-list'>
+        <Link to='/' className='header-link'>
           <li>Home</li>
         </Link>
-        <Link to="/jobs" className="header-link">
+        <Link to='/jobs' className='header-link'>
           <li>Jobs</li>
         </Link>
       </ul>
-      <button className="logout-btn" type="button" onClick={logoutfunction}>
+      <button className='logout-btn' type='button' onClick={logoutfunction}>
         Logout
       </button>
-      <div className="sm-link-cont">
-        <Link to="/">
-          <TiHome className="sm-link" />
+      <div className='sm-link-cont'>
+        <Link to='/'>
+          <TiHome className='sm-link' />
         </Link>
-        <Link to="/jobs">
-          <BsBriefcaseFill className="sm-link" />
+        <Link to='/jobs'>
+          <BsBriefcaseFill className='sm-link' />
         </Link>
-        <FiLogOut className="sm-link" onClick={logoutfunction} />
+        <FiLogOut className='sm-link' onClick={logoutfunction} />
       </div>
     </div>
   )
